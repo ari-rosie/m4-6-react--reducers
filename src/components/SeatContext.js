@@ -10,7 +10,17 @@ const initialState = {
 };
 
 const reducer = (state, action) => {
-
+    switch(action.type) {
+        case 'RECEIVE-SEAT-INFO-FROM-SERVER':
+            return {
+                hasLoaded: true,
+                seats: action.data.seats,
+                numOfRows: action.data.numOfRows,
+                seatsPerRow: action.data.seatsPerRow
+            }
+        default:
+            throw new Error(`unrecognized action: ${action.type}`);
+    }
 };
 
 export const SeatProvider = ({children}) => {
@@ -19,7 +29,7 @@ export const SeatProvider = ({children}) => {
     const receiveSeatInfoFromServer = (data) => {
         dispatch({
             type: 'RECEIVE-SEAT-INFO-FROM-SERVER',
-            ...data,
+            data: data,
         });  
     };
 
