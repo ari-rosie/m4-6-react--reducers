@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 
 import GlobalStyles from './GlobalStyles';
 import { SeatContext } from './SeatContext';
+import TicketWidget from './TicketWidget';
 import { FetchData } from '../hooks';
 
 function App() {
@@ -12,7 +13,7 @@ function App() {
   return (
     <>
       <GlobalStyles />
-      TODO: write code
+      <TicketWidget />
     </>
   );
 }
