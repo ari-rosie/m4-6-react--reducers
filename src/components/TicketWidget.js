@@ -4,9 +4,9 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 import { getRowName, getSeatNum } from '../helpers';
-import { range, Tooltip } from '../utils';
-import { ReactComponent as SeatPic } from '../assets/seat-available.svg';
+import { range } from '../utils';
 import { SeatContext } from './SeatContext';
+import Seat from './Seat';
 
 
 const TicketWidget = () => {
@@ -26,11 +26,9 @@ const TicketWidget = () => {
               {range(seatsPerRow).map(seatIndex => {
                 const seatId = `${rowName}-${getSeatNum(seatIndex)}`;
                 return (
-                  <SeatWrapper key={seatId} seatId={seatId} seats={seats}> 
-                    <Tooltip str={`Row ${rowName}, Seat ${seatId} - $${seats[seatId].price}`}>
-                      <SeatPic />
-                    </Tooltip>
-                  </SeatWrapper>
+                  <button key={seatId} disabled={seats[seatId].isBooked ? true: false}>
+                    <Seat seats={seats} seatId={seatId} rowName={rowName}/>
+                  </button>
                 );
               })}
             </Row>
@@ -62,9 +60,5 @@ const RowLabel = styled.div`
   font-weight: bold;
 `;
 
-const SeatWrapper = styled.div(props => ({
-  padding: '5px',
-  filter: props.seats[props.seatId].isbooked ? 'grayscale(100%)': 'none',
-}))
 
 export default TicketWidget;
