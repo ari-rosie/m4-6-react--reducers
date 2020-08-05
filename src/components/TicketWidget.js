@@ -9,6 +9,7 @@ import { SeatContext } from './SeatContext';
 import Seat from './Seat';
 
 
+
 const TicketWidget = () => {
   const {state: {numOfRows, seatsPerRow, hasLoaded, seats}} = useContext(SeatContext);
 
@@ -26,9 +27,7 @@ const TicketWidget = () => {
               {range(seatsPerRow).map(seatIndex => {
                 const seatId = `${rowName}-${getSeatNum(seatIndex)}`;
                 return (
-                  <button key={seatId} disabled={seats[seatId].isBooked ? true: false}>
-                    <Seat seats={seats} seatId={seatId} rowName={rowName}/>
-                  </button>
+                    <Seat key={seatId} seats={seats} seatId={seatId} rowName={rowName}/>
                 );
               })}
             </Row>
