@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 
+
 export const FetchData = (url, renderArg, handler) => {
     useEffect(() => {
         try {
@@ -12,3 +13,4 @@ export const FetchData = (url, renderArg, handler) => {
     // eslint-disable-next-line
     }, [renderArg]);    
 };
+

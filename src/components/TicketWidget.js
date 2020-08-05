@@ -2,38 +2,43 @@ import React, { useContext } from 'react';
 import styled from 'styled-components';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
+
 import { getRowName, getSeatNum } from '../helpers';
-import { range } from '../utils';
+import { range, Tooltip } from '../utils';
 import { ReactComponent as SeatPic } from '../assets/seat-available.svg';
 import { SeatContext } from './SeatContext';
 
-const TicketWidget = () => {
-  const {state: {numOfRows, seatsPerRow}} = useContext(SeatContext);
 
-  // TODO: implement the loading spinner <CircularProgress />
-  // with the hasLoaded flag
+const TicketWidget = () => {
+  const {state: {numOfRows, seatsPerRow, hasLoaded, seats}} = useContext(SeatContext);
 
   return (
-    <Wrapper>
-      {range(numOfRows).map(rowIndex => {
-        const rowName = getRowName(rowIndex);
+    <>
+      {!hasLoaded && <CircularProgress />}
+      {hasLoaded && 
+      <Wrapper>
+        {range(numOfRows).map(rowIndex => {
+          const rowName = getRowName(rowIndex);
 
-        return (
-          <Row key={rowIndex}>
-            <RowLabel>Row {rowName}</RowLabel>
-            {range(seatsPerRow).map(seatIndex => {
-              const seatId = `${rowName}-${getSeatNum(seatIndex)}`;
-
-              return (
-                <SeatWrapper key={seatId}>
-                  <SeatPic />
-                </SeatWrapper>
-              );
-            })}
-          </Row>
-        );
-      })}
-    </Wrapper>
+          return (
+            <Row key={rowIndex}>
+              <RowLabel>Row {rowName}</RowLabel>
+              {range(seatsPerRow).map(seatIndex => {
+                const seatId = `${rowName}-${getSeatNum(seatIndex)}`;
+                return (
+                  <SeatWrapper key={seatId} seatId={seatId} seats={seats}> 
+                    <Tooltip str={`Row ${rowName}, Seat ${seatId} - $${seats[seatId].price}`}>
+                      <SeatPic />
+                    </Tooltip>
+                  </SeatWrapper>
+                );
+              })}
+            </Row>
+          );
+        })}
+      </Wrapper>
+      }
+    </>
   );
 };
 
@@ -57,8 +62,9 @@ const RowLabel = styled.div`
   font-weight: bold;
 `;
 
-const SeatWrapper = styled.div`
-  padding: 5px;
-`;
+const SeatWrapper = styled.div(props => ({
+  padding: '5px',
+  filter: props.seats[props.seatId].isbooked ? 'grayscale(100%)': 'none',
+}))
 
 export default TicketWidget;

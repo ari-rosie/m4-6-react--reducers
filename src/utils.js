@@ -1,3 +1,7 @@
+import React from 'react';
+import Tippy from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css';
+
 /**
  * Utility function - produces an array for the values provided.
  *
@@ -11,3 +15,11 @@ export function range(end) {
   }
   return ans;
 }
+
+export const Tooltip = ({str, children}) => {
+  return (
+    <Tippy content={<span>{str}</span>}>
+      {children}
+    </Tippy>
+  );
+};
